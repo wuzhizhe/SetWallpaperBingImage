@@ -1,0 +1,2 @@
+# SetWallpaperBingImage
+设置必应今日壁纸为桌面壁纸的软件
