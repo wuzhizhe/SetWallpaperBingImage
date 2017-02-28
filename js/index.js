@@ -1,6 +1,7 @@
 'use strict';
 const gui = require('nw.gui'),
     pify = require('pify'),
+    os = require('os'),
     childProcess = require('child_process'),
     path = require('path'),
     execFile = pify(childProcess.execFile),
@@ -45,7 +46,7 @@ function showImgOnPage() {
 }
 
 function setImageAsWallpaper() {
-    imagePath = localPosition + img + ratio + imageSuffix;
+    imagePath = __dirname  + img + ratio + imageSuffix;
     if (fs.existsSync(imagePath)) {
         excuteSetWallPaper(imagePath);
     } else {
@@ -58,8 +59,19 @@ function setImageAsWallpaper() {
 }
 
 function excuteSetWallPaper(imagePath) {
-    let bin = path.join(__dirname, '/tools/win/WallpaperChanger.exe');
-    execFile(bin, [path.resolve(imagePath)]);
+    let platform = os.platform();
+    switch (platform) {
+        case 'win32':
+            let bin = path.join(__dirname, '/tools/win/WallpaperChanger.exe');
+            execFile(bin, [path.resolve(imagePath)]);
+            break;
+        case 'linux':
+            let command = 'gsettings set  org.cinnamon.desktop.background picture-uri "file://'+ imagePath +'"';
+            require('child_process').exec(command);
+            break;
+        default:
+            break;
+    }
 }
 
 function makeImageUrl(data) {
