@@ -1,0 +1,39 @@
+{
+  "//": "NODE配置",
+  "name": "download-bing-image",
+  "main": "index.html",
+  "version": "0.1.0",
+  "license": "ISC",
+  "author": "zhangzemu",
+  "description": "我的第一个Node-Webkit小程序",
+  "single-instance": true,
+  "node-main": "",
+  "nodejs": true,
+  "window": {
+    "title": "my first node-webkit app",
+    "width": 200,
+    "height": 80,
+    "resizable": false,
+    "as_desktop": true,
+    "always-on-top": false,
+    "fullscreen": false,
+    "frame": true,
+    "show": true,
+    "position": "center",
+    "icon": "images/toolbar_icons.png"
+  },
+  "webkit": {
+    "plugin": true
+  },
+  "maintainers": {
+    "name": "wuzhizhemu569",
+    "email": "wuzhizhemu569@gmail.com",
+    "chromium-args": "",
+    "web": ""
+  },
+  "dependencies": {
+    "pify": "^2.3.0",
+    "promise": "^7.1.1",
+    "request": "^2.72.0"
+  }
+}

@@ -1,0 +1,9 @@
+#setBkgBtn,
+#downToLocalBtn {
+    width: 100%;
+    height: 30px;
+}
+
+#downToLocalBtn {
+    margin-top: 10px;
+}
