@@ -137,9 +137,9 @@ window.onload = function() {
         document.querySelector('.proxy-config').style.display = 'block';
     };
     document.querySelector('#save-proxy').onclick = function(e) {
-        let protocol = document.querySelector('#protocol').value,
+        let protocol = 'http',
             domain = document.querySelector('#domain-port').value,
-            proxy = protocol + '://' + domain;
+            proxy = domain ?  protocol + '://' + domain : '';
         window.localStorage.setItem('proxy', proxy);
         gui.App.setProxyConfig(proxy);
         r = request.defaults({proxy: proxy});
