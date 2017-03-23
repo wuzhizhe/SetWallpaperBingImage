@@ -11,8 +11,12 @@ nwjs安装使用见：[nwjs官方文档](http://docs.nwjs.io/en/latest)
 
 2017-03-23更新
 
+支持设置代理，不能直接上网的情况可以设置代理，只支持HTTP协议。
+
+支持的平台：
+
 windows系统在win7 64位、win10 64位上都使用成功。
 
-支持linux桌面系统，理论上支持gnome kde xfce等linux常用桌面系统，在unbutu 16.04 gnome桌面测试成功。
+linux桌面系统，理论上支持gnome kde xfce等linux常用桌面系统，在unbutu 16.04 gnome桌面测试成功。
 
 
