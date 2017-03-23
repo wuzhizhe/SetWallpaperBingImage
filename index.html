@@ -6,7 +6,21 @@
 		<script type="text/javascript" src="js/index.js"></script>
 	</head>
 	<body>
-		<button id="setBkgBtn">今日BING壁纸查看</button>
-		<button id="downToLocalBtn">设置为桌面背景</button>
+		<div class="buttons">
+			<button id="setBkgBtn">今日BING壁纸查看</button>
+			<button id="downToLocalBtn">设置为桌面背景</button>
+			<button id="setProxy">设置代理</button>
+		</div>
+		<div class="proxy-config">
+			<div class="protocol-div">
+				<label for="protocol">协议</label>
+				<input type="text" id="protocol" placeholder="协议，例如http">
+			</div>
+			<div class="port-div">
+				<label for="domain-port">地址</label>
+				<input type="text" id="domain-port" placeholder="例如：127.0.0.1:8080">
+			</div>
+			<button id="save-proxy">保存</button>
+		</div>
 	</body>
 </html>

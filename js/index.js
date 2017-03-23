@@ -5,6 +5,7 @@ const gui = require('nw.gui'),
     childProcess = require('child_process'),
     path = require('path'),
     execFile = pify(childProcess.execFile),
+    proxy = window.localStorage.getItem('proxy') || '',
     request = require('request'),
     Promise = require('promise'),
     ratio = '_1920x1080',
@@ -15,10 +16,10 @@ const gui = require('nw.gui'),
     fs = require('fs'),
     reg = new RegExp('<url>/az/hprichbg/rb/(.*)_1366x768.jpg</url>');
 
-    gui.App.setProxyConfig('');
+    gui.App.setProxyConfig(proxy);
 
     //此处是给request设置代理
-let r = request.defaults({proxy: ''}),
+let r = request.defaults({proxy: proxy}),
     __dirname = path.resolve(),
     img = null,
     url = null,
@@ -46,7 +47,7 @@ function showImgOnPage() {
 }
 
 function setImageAsWallpaper() {
-    imagePath = __dirname  + img + ratio + imageSuffix;
+    imagePath = __dirname + '/' + img + ratio + imageSuffix;
     if (fs.existsSync(imagePath)) {
         excuteSetWallPaper(imagePath);
     } else {
@@ -66,8 +67,10 @@ function excuteSetWallPaper(imagePath) {
             execFile(bin, [path.resolve(imagePath)]);
             break;
         case 'linux':
-            let command = 'gsettings set  org.cinnamon.desktop.background picture-uri "file://'+ imagePath +'"';
-            require('child_process').exec(command);
+            let desktop = childProcess.execSync('echo "$XDG_DATA_DIRS" | grep -Eo "gnome|unity|cinnamon|mate|kde|xfce|lxde"')
+            let command = 'gsettings set  org.'+ desktop +'.desktop.background picture-uri "file://'+ imagePath +'"';
+            command = command.replace(/[\r\n]/g, "");
+            childProcess.exec(command);
             break;
         default:
             break;
@@ -123,6 +126,25 @@ window.onload = function() {
     document.querySelector('#downToLocalBtn').onclick = function(e) {
         setImageAsWallpaper();
     };
+    document.querySelector('#setProxy').onclick = function(e) {
+        let proxy = window.localStorage.getItem('proxy');
+        if (proxy && proxy.indexOf('://') > -1) {
+            let proArray = proxy.split('://');
+            document.querySelector('#protocol').value = proArray[0];
+            document.querySelector('#domain-port').value = proArray[1];
+        }
+        document.querySelector('.buttons').style.display = 'none';
+        document.querySelector('.proxy-config').style.display = 'block';
+    };
+    document.querySelector('#save-proxy').onclick = function(e) {
+        let protocol = document.querySelector('#protocol').value,
+            domain = document.querySelector('#domain-port').value,
+            proxy = protocol + '://' + domain;
+        window.localStorage.setItem('proxy', proxy);
+        gui.App.setProxyConfig(proxy);
+        r = request.defaults({proxy: proxy});
+        setImageUrl();
+        document.querySelector('.buttons').style.display = 'block';
+        document.querySelector('.proxy-config').style.display = 'none';
+    }
 }
-// let os = require('os');
-// console.log(os.platform());
