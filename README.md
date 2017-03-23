@@ -5,7 +5,7 @@
 NodeJs, Npm, NWJS
 
 安装使用：
-下载项目后，进入package.json目录，npm install安装需要的依赖包，然后像发布正常的nwjs应用一样打包发布使用就可以。
+下载项目后，进入package.json所在的目录，npm install安装需要的依赖包，然后像发布正常的nwjs应用一样打包发布使用就可以。
 nwjs安装使用见：[nwjs官方文档](http://docs.nwjs.io/en/latest)
 
 2017-03-23更新
