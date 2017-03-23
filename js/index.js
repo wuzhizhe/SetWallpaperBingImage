@@ -15,10 +15,10 @@ const gui = require('nw.gui'),
     fs = require('fs'),
     reg = new RegExp('<url>/az/hprichbg/rb/(.*)_1366x768.jpg</url>');
 
-    gui.App.setProxyConfig('http://10.18.8.21:8081');
+    gui.App.setProxyConfig('');
 
     //此处是给request设置代理
-let r = request.defaults({proxy: 'http://10.18.8.21:8081'}),
+let r = request.defaults({proxy: ''}),
     __dirname = path.resolve(),
     img = null,
     url = null,
