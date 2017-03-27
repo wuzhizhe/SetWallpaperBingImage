@@ -1,0 +1,26 @@
+{
+  "name": "DownloadBingImage",
+  "version": "1.0.0",
+  "description": "A Electron application to download image of bing.com",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package": "electron-packager ./ DownloadBingImage --asar=true --icon=./images/Bing_50.ico --overwrite --version-string.CompanyName=wuzhizhemu --version-string.ProductName=必应壁纸"
+  },
+  "keywords": [
+    "Electron"
+  ],
+  "author": "wuzhizhe",
+  "license": "ISC",
+  "dependencies": {
+    "es6-promise": "^4.1.0",
+    "pify": "^2.3.0",
+    "request": "^2.72.0"
+  },
+  "devDependencies": {
+    "electron": "~1.6.2",
+    "electron-packager": "^8.6.0",
+    "grunt": "^1.0.1",
+    "grunt-electron-installer": "^2.1.0"
+  }
+}
