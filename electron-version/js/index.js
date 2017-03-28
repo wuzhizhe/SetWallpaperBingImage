@@ -70,7 +70,7 @@ function excuteSetWallPaper(imagePath) {
     let platform = os.platform();
     switch (platform) {
         case 'win32':
-            let bin = path.join(__dirname, '\\resources\\tools\\win\\WallpaperChanger.exe');
+            let bin = path.join(__dirname, '\\app-1.0.0\\resources\\tools\\win\\WallpaperChanger.exe');
             // let bin = path.join(__dirname, '\\resources\\app\\tools\\win\\WallpaperChanger.exe');
             // let bin = path.join(__dirname, '\\tools\\win\\WallpaperChanger.exe');
             console.log(imagePath)

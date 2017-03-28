@@ -7,10 +7,9 @@ grunt.config.init({
             authors: 'wuzhizhe',
             exe: 'DownloadBingImage.exe',
             description:"set bing image as desktop wallpaper",
-            iconUrl: 'http://127.0.0.1:3001/webserverdir/Bing_50.ico',
-            setupIcon: './Bing_50.ico',
+            setupIcon: './images/Bing_50.ico',
             noMsi: true
-        }       
+        }
     }
 })
 
