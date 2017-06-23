@@ -1,13 +1,11 @@
 'use strict';
 const Promise = require('es6-promise').Promise;
-const pify = require('pify'),
-    os = require('os'),
+const os = require('os'),
     electron = require('electron'),
     BrowserWindow = electron.remote.BrowserWindow,
     childProcess = require('child_process'),
     path = require('path'),
     execFile = childProcess.execFile,
-    // execFile = pify(childProcess.execFile),
     proxy = window.localStorage.getItem('proxy') || '',
     request = require('request'),
     ratio = '_1920x1080',
@@ -18,9 +16,7 @@ const pify = require('pify'),
     fs = require('fs'),
     reg = new RegExp('<url>/az/hprichbg/rb/(.*)_1366x768.jpg</url>');
 
-    // gui.App.setProxyConfig(proxy);
-
-    //此处是给request设置代理
+//此处是给request设置代理
 let r = request.defaults({proxy: proxy}),
     __dirname = path.resolve(),
     img = null,
@@ -55,7 +51,7 @@ function showImgOnPage() {
 
 function setImageAsWallpaper() {
     imagePath = __dirname + '\\' + img + ratio + imageSuffix;
-    if (fs.existsSync(imagePath)) {
+    if (fs.existsSync(imagePath) && fs.statSync(imagePath).size > 100000) {
         excuteSetWallPaper(imagePath);
     } else {
         requestBingImage(imageUrl).then(function () {
@@ -70,11 +66,11 @@ function excuteSetWallPaper(imagePath) {
     let platform = os.platform();
     switch (platform) {
         case 'win32':
-            let bin = path.join(__dirname, '\\app-1.0.0\\resources\\tools\\win\\WallpaperChanger.exe');
-            // let bin = path.join(__dirname, '\\resources\\app\\tools\\win\\WallpaperChanger.exe');
+            // let bin = path.join(__dirname, '\\app-1.0.0\\resources\\tools\\win\\WallpaperChanger.exe');
+            let bin = path.join(__dirname, '\\resources\\app.asar\\tools\\win\\WallpaperChanger.exe');
             // let bin = path.join(__dirname, '\\tools\\win\\WallpaperChanger.exe');
             console.log(imagePath)
-            execFile(bin, [imagePath]);
+            execFile(bin, [imagePath], () => {});
             break;
         case 'linux':
             let desktop = childProcess.execSync('echo "$XDG_DATA_DIRS" | grep -Eo "gnome|unity|cinnamon|mate|kde|xfce|lxde"')
@@ -151,7 +147,6 @@ window.onload = function() {
             domain = document.querySelector('#domain-port').value,
             proxy = protocol + '://' + domain;
         window.localStorage.setItem('proxy', proxy);
-        // gui.App.setProxyConfig(proxy);
         r = request.defaults({proxy: proxy});
         setImageUrl();
         document.querySelector('.buttons').style.display = 'block';

@@ -2,4 +2,7 @@ node_modules/
 electron-version/node_modules/
 electron-version/DownloadBingImage-win32-x64/
 electron-version/installer/
+electron-version-noproxy/node_modules/
+electron-version-noproxy/DownloadBingImage-win32-x64/
+electron-version-noproxy/installer/
 .idea/

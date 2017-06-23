@@ -1,0 +1,35 @@
+#setBkgBtn,
+#downToLocalBtn,
+#setProxy {
+    width: 100%;
+    height: 30px;
+    margin-top: 5px;
+}
+
+#downToLocalBtn，
+#setProxy {
+    margin-top: 10px;
+}
+.proxy-config {
+	display: none;
+}
+.protocol-div {
+	display: flex;
+    height: 30px;
+    align-items: center;
+}
+.port-div {
+	display: flex;
+    margin-top: 5px;
+    height: 30px;
+    align-items: center;
+}
+#save-proxy {
+	height: 30px;
+    width: 100%;
+    margin-top: 5px;
+}
+.protocol-div input,
+.port-div input {
+	height: 100%;
+}

@@ -1,29 +1,32 @@
 'use strict';
-const gui = require('nw.gui'),
-    pify = require('pify'),
+const Promise = require('es6-promise').Promise;
+const pify = require('pify'),
     os = require('os'),
+    electron = require('electron'),
+    BrowserWindow = electron.remote.BrowserWindow,
     childProcess = require('child_process'),
     path = require('path'),
-    execFile = pify(childProcess.execFile),
+    execFile = childProcess.execFile,
+    // execFile = pify(childProcess.execFile),
     proxy = window.localStorage.getItem('proxy') || '',
     request = require('request'),
-    Promise = require('promise'),
     ratio = '_1920x1080',
-    imagePrefix = 'http://global.bing.com//az/hprichbg/rb/',
+    imagePrefix = 'http://global.bing.com/az/hprichbg/rb/',
     imageSuffix = '.jpg',
     localPosition = '.\\',
     apiUrl = 'http://global.bing.com/HPImageArchive.aspx?idx=0&n=1&mkt=zh-cn',
     fs = require('fs'),
     reg = new RegExp('<url>/az/hprichbg/rb/(.*)_1366x768.jpg</url>');
 
-    gui.App.setProxyConfig(proxy);
+    // gui.App.setProxyConfig(proxy);
 
     //此处是给request设置代理
-let r = request.defaults({proxy: proxy}),
+let r = request.defaults(),
     __dirname = path.resolve(),
     img = null,
     url = null,
     imagePath = null,
+
     imageUrl = null;
 
 
@@ -39,19 +42,19 @@ function setImageUrl() {
 }
 
 function showImgOnPage() {
-    gui.Window.open(imageUrl, {
-        position: 'center',
-        width: 1920,
-        height: 1080
+    let win = new BrowserWindow({
+        width: 800,
+        height: 600
     });
+    win.loadURL(imageUrl);
 }
 
 function setImageAsWallpaper() {
-    imagePath = __dirname + '/' + img + ratio + imageSuffix;
-    if (fs.existsSync(imagePath) && fs.statSync(imagePath).size > 100000) {
+    imagePath = __dirname + '\\' + img + ratio + imageSuffix;
+    if (fs.existsSync(imagePath)) {
         excuteSetWallPaper(imagePath);
     } else {
-        requestBingImage(imageUrl).done(function () {
+        requestBingImage(imageUrl).then(function () {
             excuteSetWallPaper(imagePath);
         }, function (err) {
             console.log(err);
@@ -63,8 +66,11 @@ function excuteSetWallPaper(imagePath) {
     let platform = os.platform();
     switch (platform) {
         case 'win32':
-            let bin = path.join(__dirname, '/tools/win/WallpaperChanger.exe');
-            execFile(bin, [path.resolve(imagePath)]);
+            // let bin = path.join(__dirname, '\\app-1.0.0\\resources\\tools\\win\\WallpaperChanger.exe');
+            let bin = path.join(__dirname, '\\resources\\app.asar\\tools\\win\\WallpaperChanger.exe');
+            // let bin = path.join(__dirname, '\\tools\\win\\WallpaperChanger.exe');
+            console.log(imagePath)
+            execFile(bin, [imagePath], function() {});
             break;
         case 'linux':
             let desktop = childProcess.execSync('echo "$XDG_DATA_DIRS" | grep -Eo "gnome|unity|cinnamon|mate|kde|xfce|lxde"')
@@ -126,25 +132,4 @@ window.onload = function() {
     document.querySelector('#downToLocalBtn').onclick = function(e) {
         setImageAsWallpaper();
     };
-    document.querySelector('#setProxy').onclick = function(e) {
-        let proxy = window.localStorage.getItem('proxy');
-        if (proxy && proxy.indexOf('://') > -1) {
-            let proArray = proxy.split('://');
-            document.querySelector('#protocol').value = proArray[0];
-            document.querySelector('#domain-port').value = proArray[1];
-        }
-        document.querySelector('.buttons').style.display = 'none';
-        document.querySelector('.proxy-config').style.display = 'block';
-    };
-    document.querySelector('#save-proxy').onclick = function(e) {
-        let protocol = 'http',
-            domain = document.querySelector('#domain-port').value,
-            proxy = domain ?  protocol + '://' + domain : '';
-        window.localStorage.setItem('proxy', proxy);
-        gui.App.setProxyConfig(proxy);
-        r = request.defaults({proxy: proxy});
-        setImageUrl();
-        document.querySelector('.buttons').style.display = 'block';
-        document.querySelector('.proxy-config').style.display = 'none';
-    }
 }
